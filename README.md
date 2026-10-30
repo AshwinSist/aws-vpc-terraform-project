@@ -4,9 +4,9 @@
 
 This project focuses on designing and managing AWS network infrastructure using Terraform (Infrastructure as Code).
 
-The architecture is designed across two Availability Zones in the Sydney region (ap-southeast-2), with separate public and private subnets, network security controls, routing and an S3 Gateway VPC Endpoint.
+The architecture is designed across two Availability Zones in the Sydney region (`ap-southeast-2`), with separate public and private subnets, network security controls, routing, and an S3 Gateway VPC Endpoint.
 
-The primary goal is to build a structured, secure and scalable cloud networking environment while prioritising the AWS Free account plan.
+The primary goal is to build a structured, secure, and scalable cloud networking environment while prioritising the AWS Free account plan.
 
 ## Architecture
 
@@ -100,6 +100,7 @@ The diagram represents the intended network architecture. It is not evidence of 
 | endpoint.tf | S3 Gateway Endpoint configuration |
 | outputs.tf | Infrastructure outputs |
 | .gitignore | Excludes unnecessary and sensitive files |
+| scripts/terraform-check.sh | Automated Terraform safety checks |
 
 ## Project Directory Structure
 
@@ -120,10 +121,12 @@ terraform-project/
 ├── .terraform.lock.hcl
 │
 ├── docs/
+│
 ├── diagrams/
 │   └── architecture.mmd
 │
 ├── scripts/
+│   └── terraform-check.sh
 │
 └── reference/
     └── nat.tf
@@ -139,6 +142,7 @@ The NAT configuration in the reference directory is retained for documentation a
 - Ubuntu Linux
 - Git
 - GitHub
+- Visual Studio Code
 
 ## Terraform Workflow
 
@@ -151,7 +155,7 @@ terraform init
 ### 2. Format Terraform files
 
 ```bash
-terraform fmt
+terraform fmt -recursive
 ```
 
 ### 3. Validate the configuration
@@ -166,13 +170,27 @@ terraform validate
 terraform plan
 ```
 
-### 5. Deploy the infrastructure
+### 5. Automated Terraform Safety Checks
 
-Deployment must only be attempted after reviewing account permissions, Free plan eligibility and potential costs.
+This project includes a shell script to automate basic Terraform checks before deployment.
+
+**Script location:** `scripts/terraform-check.sh`
+
+Run the script using:
 
 ```bash
-terraform apply
+./scripts/terraform-check.sh
 ```
+
+The script performs the following operations:
+
+1. Checks Terraform file formatting.
+2. Validates the Terraform configuration.
+3. Generates a Terraform execution plan.
+
+The script does not deploy infrastructure. The generated plan must be reviewed before considering deployment.
+
+**Note:** Terraform plan is a preview of proposed infrastructure changes. It does not create AWS resources.
 
 ## Security Considerations
 
@@ -180,7 +198,8 @@ terraform apply
 - Security Group rules for HTTP and HTTPS traffic.
 - Custom Network ACL rules for subnet-level traffic control.
 - S3 Gateway Endpoint for private S3 connectivity.
-- Terraform state and sensitive variable files excluded through .gitignore.
+- Terraform state and sensitive variable files excluded through `.gitignore`.
+- Infrastructure changes reviewed using Terraform plan before deployment.
 
 ## Cost Considerations
 
@@ -190,7 +209,7 @@ This project prioritises the AWS Free account plan.
 - No EC2 instances or Load Balancers are included.
 - Network ACLs have no additional charge.
 - S3 Gateway Endpoints have no additional endpoint charge.
-- S3 storage, requests and data transfer may have separate charges.
+- S3 storage, requests, and data transfer may have separate charges.
 
 All services and deployment operations must be checked against the AWS account's actual service restrictions and applicable pricing before deployment.
 
@@ -206,6 +225,8 @@ The latest successful Terraform plan proposed:
 
 This represents a proposed infrastructure plan. Successful deployment has not yet been confirmed.
 
+**Deployment Status:** Not deployed. No `terraform apply` has been performed.
+
 ## Learning Objectives
 
 - Understand AWS VPC networking.
@@ -215,6 +236,7 @@ This represents a proposed infrastructure plan. Successful deployment has not ye
 - Configure S3 Gateway Endpoints.
 - Automate infrastructure using Terraform.
 - Manage infrastructure code using Git and GitHub.
+- Perform Terraform formatting, validation, and planning.
 
 ## Future Improvements
 
@@ -228,6 +250,8 @@ This represents a proposed infrastructure plan. Successful deployment has not ye
 
 **Project:** AWS VPC Infrastructure Using Terraform
 
-**Region:** Asia Pacific (Sydney) - ap-southeast-2
+**Region:** Asia Pacific (Sydney) - `ap-southeast-2`
 
 **Focus:** Cloud Networking | Infrastructure as Code | AWS | Terraform
+
+**Author:** Ashwin V
