@@ -1,0 +1,44 @@
+flowchart TB
+    Internet((Internet))
+
+    subgraph VPC["AWS VPC - 10.0.0.0/16"]
+
+        IGW["Internet Gateway"]
+
+        subgraph AZ1["Availability Zone 1 - ap-southeast-2a"]
+            PUB1["Public Subnet 1<br/>10.0.1.0/24"]
+            PRIV1["Private Subnet 1<br/>10.0.2.0/24"]
+        end
+
+        subgraph AZ2["Availability Zone 2 - ap-southeast-2b"]
+            PUB2["Public Subnet 2<br/>10.0.3.0/24"]
+            PRIV2["Private Subnet 2<br/>10.0.4.0/24"]
+        end
+
+        PUBRT["Public Route Table"]
+        PRIVRT["Private Route Table"]
+
+        SG["Web Security Group"]
+        NACL1["Public Network ACL"]
+        NACL2["Private Network ACL"]
+
+        S3["S3 Gateway Endpoint"]
+    end
+
+    Internet <--> IGW
+    IGW --- PUBRT
+    PUBRT --- PUB1
+    PUBRT --- PUB2
+
+    PRIVRT --- PRIV1
+    PRIVRT --- PRIV2
+    PRIVRT --> S3
+    S3 --> S3BUCKET["Amazon S3"]
+
+    NACL1 -.-> PUB1
+    NACL1 -.-> PUB2
+    NACL2 -.-> PRIV1
+    NACL2 -.-> PRIV2
+
+    SG -.-> PUB1
+    SG -.-> PUB2
