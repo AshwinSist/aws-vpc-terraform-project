@@ -1,4 +1,12 @@
 
+# REFERENCE ONLY - NOT PART OF THE ACTIVE INFRASTRUCTURE
+#
+# This file contains an alternative NAT Instance implementation.
+# It is intentionally stored outside the root Terraform directory.
+# It is not included in the current Terraform deployment.
+#
+# The active project uses an S3 Gateway VPC Endpoint
+# and does not include a NAT Instance or NAT Gateway.
 
 resource "aws_security_group" "nat_sg" {
   name        = "${var.project_name}-nat-sg"
